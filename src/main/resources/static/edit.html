@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redigér en Kandidat</title>
+</head>
+<body>
+
+<div>
+    <input id="kandidat-id" placeholder="Søg på kandidatens id for at redigere">
+    <button id="btn-find">Find Kandidat</button>
+</div>
+
+<form>
+    <p>ID: <span id="id-for-kandidat"></span> </p>
+    <div><input id="navn" placeholder="Navn" /></div>
+    <div>Vælg nyt parti:
+        <select name="partibogstav" id="partibogstav">
+            <option value="A">A</option>
+            <option value="C">C</option>
+            <option value="F">F</option>
+            <option value="O">O</option>
+            <option value="V">V</option>
+            <option value="OE">OE</option>
+        </select>
+    </div>
+
+    <p>Partinavn: <span id="partinavn"></span> </p>
+    <br/>
+    <button id="btn-save">Gem ændringer</button>
+</form>
+<p id="status"></p>
+<p><a href="/">Tilbage</a></p>
+
+<script>
+    const SERVER_URL = sessionStorage.getItem("SERVER_URL")
+
+    document.getElementById("btn-find").onclick = ()=>{
+        fetch(SERVER_URL+"/"+document.getElementById("kandidat-id").value)
+            .then(res=> res.json())
+            .then(k=> {
+                document.getElementById("id-for-kandidat").textContent = k.id
+                document.getElementById("navn").value=k.navn
+                document.getElementById("partinavn").textContent = k.parti.partinavn
+                console.log(k.parti)
+            })
+    }
+
+
+
+    document.getElementById("btn-save").onclick = (evt)=>{
+        evt.preventDefault()
+        const newKandidat = {
+            navn: document.getElementById("navn").value,
+            parti: {
+                partibogstav: document.getElementById("partibogstav").value
+            }
+        }
+        const options = {
+            method: "PUT",
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(newKandidat)
+        }
+        console.log(document.getElementById("partibogstav"))
+        fetch(SERVER_URL+"/"+document.getElementById("kandidat-id").value,options)
+            .then(res=>res.json())
+            .then(p=> document.getElementById("status").innerText = JSON.stringify(p))
+    }
+
+</script>
+</body>
+</html>

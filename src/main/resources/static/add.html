@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilføj kandidat</title>
+</head>
+
+<body>
+<h1>Tilføj en Kandidat til listen</h1>
+<form>
+    <div><input id="navn" placeholder="Navn" /></div>
+    <br />
+    <div>Vælg dit parti:
+        <select name="partibogstav" id="partibogstav">
+            <option value="A">A - Socialdemokraterne</option>
+            <option value="C">C - Konservative</option>
+            <option value="F">F - SF - Socialistisk Folkeparti </option>
+            <option value="O">O - Dansk Folkeparti	</option>
+            <option value="V">V - Venste, Danmarks Liberale Parti	</option>
+            <option value="OE">OE - Enhedslisten</option>
+        </select>
+    </div>
+    <button id="btn-save">Save</button>
+</form>
+<p id="status"></p>
+<p><a href="/">Tilbage</a></p>
+
+<script>
+
+    const SERVER_URL = sessionStorage.getItem("SERVER_URL");
+    document.getElementById("btn-save").onclick = (evt)=>{
+        evt.preventDefault()
+        const newKandidat = {
+            navn: document.getElementById("navn").value,
+            parti: {
+                partibogstav: document.getElementById("partibogstav").value
+            }
+        }
+        const options = {
+            method: "POST",
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(newKandidat)
+        }
+        fetch(SERVER_URL,options)
+            .then(res=>res.json())
+            .then(p=> document.getElementById("status").innerText = JSON.stringify(p))
+    }
+
+
+</script>
+</body>
+
+</html>

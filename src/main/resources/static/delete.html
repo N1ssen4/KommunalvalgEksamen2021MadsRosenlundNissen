@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fjern Kandidat fra listen</title>
+</head>
+<body>
+
+<div>
+    <input id="kandidat-id" placeholder="Skriv kandidatens id">
+    <button type="button" id="btn-delete">Slet kandidat</button>
+</div>
+
+<p id="status"></p>
+<p><a href="/">Tilbage</a></p>
+
+<script>
+
+
+    const SERVER_URL = sessionStorage.getItem("SERVER_URL");
+
+
+    document.getElementById("btn-delete").onclick = (evt)=> { console.log(document.getElementById("kandidat-id").value)
+        evt.preventDefault()
+        evt.stopPropagation()
+        const options = {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(SERVER_URL+"/"+document.getElementById("kandidat-id").value,options)
+            .then(res=>res.json())
+            .then(p=> document.getElementById("status").innerText =JSON.stringify(p))
+
+    }
+
+</script>
+
+</body>
+</html>
