@@ -1,4 +1,11 @@
-Dette skal ligge i application.properties fil
+Script til oprettelse af database ligger i SQL mappen under resources og hedder
+'script.sql'
+
+For at få indsat data i tabellerne skal både 'samsokv_kandidat.sql' og 'samsokv_parti.sql'
+
+
+
+Dette skal ligge i application.properties fil (Min er ikke pushed pga. data sikkerhed)
 
 spring.jpa.hibernate.ddl-auto=update
 
