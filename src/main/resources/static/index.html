@@ -76,6 +76,8 @@ document.getElementById("alle_partier").onclick = () =>{
             makeRows(data)
         });
 }
+//Henter kandidater fra de forskellige partier
+
 document.getElementById("a_parti").onclick = () => {
     fetch(SERVER_URL + "/parti/1")
         .then(function(response) {
